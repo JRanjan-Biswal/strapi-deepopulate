@@ -13,8 +13,8 @@ const destinationDir = path.join(parentDir, 'src', 'middleware');
 const destinationFile = path.join(destinationDir, 'deepPopulate.js');
 
 const configDir = path.join(parentDir, 'config');
-const middlewareFileJS = path.join(configDir, 'middleware.js');
-const middlewareFileTS = path.join(configDir, 'middleware.ts');
+const middlewareFileJS = path.join(configDir, 'middlewares.js');
+const middlewareFileTS = path.join(configDir, 'middlewares.ts');
 
 async function modifyMiddlewareFile(filePath) {
     try {
