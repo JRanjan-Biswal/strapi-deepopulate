@@ -1,0 +1,8 @@
+{
+  "name": "strapi-deepopulate",
+  "version": "1.0.0",
+  "description": "this deep populates all the field to the api",
+  "scripts": {
+    "postinstall": "node index.js"
+  }
+}
