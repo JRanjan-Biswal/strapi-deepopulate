@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs').promises;
+const path = require('path');
 
 const parentDir = process.env.INIT_CWD;
 
