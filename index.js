@@ -9,9 +9,11 @@ if (!parentDir) {
     process.exit(1);
 }
 
-const sourceFile = path.join(__dirname, 'deepPopulate.ts');
+const sourceFileTs = path.join(__dirname, 'deepPopulate.ts');
+const sourceFileJs = path.join(__dirname, 'deepPopulate.js');
 const destinationDir = path.join(parentDir, 'src', 'middlewares');
-const destinationFile = path.join(destinationDir, 'deepPopulate.ts');
+const destinationFileTs = path.join(destinationDir, 'deepPopulate.ts');
+const destinationFileJs = path.join(destinationDir, 'deepPopulate.js');
 
 const configDir = path.join(parentDir, 'config');
 const middlewareFileJS = path.join(configDir, 'middlewares.js');
@@ -25,6 +27,22 @@ const destinationComponentsDir = path.join(parentDir, 'src', 'components');
 
 const dataImportFile = path.join(__dirname, 'my-strapi-export.tar.gz');
 const destinationDataImportFile = path.join(parentDir, 'my-strapi-export.tar.gz');
+
+function isTypeScriptInstalled() {
+    const packageJsonPath = path.join(parentDir, 'package.json');
+    try {
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+
+        const hasTypeScriptDependency =
+            (packageJson.dependencies && packageJson.dependencies.hasOwnProperty('typescript')) ||
+            (packageJson.devDependencies && packageJson.devDependencies.hasOwnProperty('typescript'));
+
+        return hasTypeScriptDependency;
+    } catch (error) {
+        console.error('Error reading or parsing package.json:', error);
+        return false;
+    }
+}
 
 async function modifyMiddlewareFile(filePath) {
     try {
@@ -77,8 +95,13 @@ async function modifyMiddlewareFile(filePath) {
         console.log(`\x1b[32m1. Created directory: ${destinationDir}\x1b[0m`);
 
         // 2. Copy the file from the package to the parent project
-        await fs.copyFile(sourceFile, destinationFile);
-        console.log(`\x1b[32m2. Successfully copied ${sourceFile} to ${destinationFile}\x1b[0m`);
+        if (isTypeScriptInstalled()) {
+            await fs.copyFile(sourceFileTs, destinationFileTs);
+            console.log(`\x1b[32m2. Successfully copied ${sourceFileTs} to ${destinationFileTs}\x1b[0m`);
+        } else {
+            await fs.copyFile(sourceFileJs, destinationFileJs);
+            console.log(`\x1b[32m2. Successfully copied ${sourceFileJs} to ${destinationFileJs}\x1b[0m`);
+        }
 
         // 3. Modify the middleware configuration file to include the new middleware
         // Step 2: Check for middleware.js or middleware.ts in the parent's config folder
