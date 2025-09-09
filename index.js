@@ -29,8 +29,9 @@ const dataImportFileTs = path.join(__dirname, 'my-strapi-export-ts.tar.gz');
 const dataImportFileJs = path.join(__dirname, 'my-strapi-export-js.tar.gz');
 const destinationDataImportFile = path.join(parentDir, 'my-strapi-export.tar.gz');
 
+const packageJsonPath = path.join(parentDir, 'package.json');
+
 function isTypeScriptInstalled() {
-    const packageJsonPath = path.join(parentDir, 'package.json');
     try {
         const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
@@ -133,12 +134,13 @@ async function modifyMiddlewareFile(filePath) {
         }
 
         // 6. Add import data
-        if (await fileExists(parentDir)) {
-            if (isTypeScriptInstalled()) {
-                await fs.copyFile(dataImportFileTs, destinationDataImportFile);
-            } else {
-                await fs.copyFile(dataImportFileJs, destinationDataImportFile);
-            }
+        if (await fileExists(parentDir) && isTypeScriptInstalled()) {
+            await fs.copyFile(dataImportFileTs, destinationDataImportFile);
+            console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
+            console.log('\x1b[31m Note: now run this command\x1b[0m \x1b[33mnpm run strapi import -- --file my-strapi-export.tar.gz\x1b[0m');
+        }
+        else if (await fileExists(parentDir) && !isTypeScriptInstalled()) {
+            await fs.copyFile(dataImportFileJs, destinationDataImportFile);
             console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
             console.log('\x1b[31m Note: now run this command\x1b[0m \x1b[33mnpm run strapi import -- --file my-strapi-export.tar.gz\x1b[0m');
         }
