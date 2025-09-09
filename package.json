@@ -6,6 +6,6 @@
     "strapi-deepopulate": "./index.js"
   },
   "scripts": {
-    "postinstall": "node simple-output.js"
+    "postinstall": "node ./simple-output.js"
   }
 }
