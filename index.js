@@ -33,7 +33,7 @@ const packageJsonPath = path.join(parentDir, 'package.json');
 
 async function isTypeScriptInstalled() {
     try {
-        const packageJson = JSON.parse(await fs.readFileSync(packageJsonPath, 'utf8'));
+        const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
 
         const hasTypeScriptDependency =
             (packageJson.dependencies && packageJson.dependencies.hasOwnProperty('typescript')) ||
