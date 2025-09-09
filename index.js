@@ -31,9 +31,9 @@ const destinationDataImportFile = path.join(parentDir, 'my-strapi-export.tar.gz'
 
 const packageJsonPath = path.join(parentDir, 'package.json');
 
-function isTypeScriptInstalled() {
+async function isTypeScriptInstalled() {
     try {
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+        const packageJson = JSON.parse(await fs.readFileSync(packageJsonPath, 'utf8'));
 
         const hasTypeScriptDependency =
             (packageJson.dependencies && packageJson.dependencies.hasOwnProperty('typescript')) ||
@@ -97,7 +97,7 @@ async function modifyMiddlewareFile(filePath) {
         console.log(`\x1b[32m1. Created directory: ${destinationDir}\x1b[0m`);
 
         // 2. Copy the file from the package to the parent project
-        if (isTypeScriptInstalled()) {
+        if (await isTypeScriptInstalled()) {
             await fs.copyFile(sourceFileTs, destinationFileTs);
             console.log(`\x1b[32m2. Successfully copied ${sourceFileTs} to ${destinationFileTs}\x1b[0m`);
         } else {
@@ -134,12 +134,12 @@ async function modifyMiddlewareFile(filePath) {
         }
 
         // 6. Add import data
-        if (await fileExists(parentDir) && isTypeScriptInstalled()) {
+        if (await fileExists(parentDir) && await isTypeScriptInstalled()) {
             await fs.copyFile(dataImportFileTs, destinationDataImportFile);
             console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
             console.log('\x1b[31m Note: now run this command\x1b[0m \x1b[33mnpm run strapi import -- --file my-strapi-export.tar.gz\x1b[0m');
         }
-        else if (await fileExists(parentDir) && !isTypeScriptInstalled()) {
+        else if (await fileExists(parentDir) && !await isTypeScriptInstalled()) {
             await fs.copyFile(dataImportFileJs, destinationDataImportFile);
             console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
             console.log('\x1b[31m Note: now run this command\x1b[0m \x1b[33mnpm run strapi import -- --file my-strapi-export.tar.gz\x1b[0m');
