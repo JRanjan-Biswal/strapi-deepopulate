@@ -10,7 +10,7 @@ if (!parentDir) {
 }
 
 const sourceFile = path.join(__dirname, 'deepPopulate.js');
-const destinationDir = path.join(parentDir, 'src', 'middleware');
+const destinationDir = path.join(parentDir, 'src', 'middlewares');
 const destinationFile = path.join(destinationDir, 'deepPopulate.js');
 
 const configDir = path.join(parentDir, 'config');
