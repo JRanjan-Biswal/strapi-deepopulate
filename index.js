@@ -53,7 +53,7 @@ async function modifyMiddlewareFile(filePath) {
 
         // Write the modified content back to the file
         await fs.writeFile(filePath, content, 'utf8');
-        console.log(`\x1b[32mSuccessfully added 'global::deepPopulate' to ${path.basename(filePath)}.\x1b[0m`);
+        console.log(`\x1b[32m3. Successfully added 'global::deepPopulate' to ${path.basename(filePath)}.\x1b[0m`);
     } catch (err) {
         console.error(`\x1b[31mError modifying middleware file ${filePath}: ${err.message}\x1b[0m`);
         process.exit(1);
@@ -65,11 +65,11 @@ async function modifyMiddlewareFile(filePath) {
     try {
         // 1. Create the destination directory recursively if it doesn't exist
         await fs.mkdir(destinationDir, { recursive: true });
-        console.log(`\x1b[32m1.Created directory: ${destinationDir}\x1b[0m`);
+        console.log(`\x1b[32m1. Created directory: ${destinationDir}\x1b[0m`);
 
         // 2. Copy the file from the package to the parent project
         await fs.copyFile(sourceFile, destinationFile);
-        console.log(`\x1b[32m2.Successfully copied ${sourceFile} to ${destinationFile}\x1b[0m`);
+        console.log(`\x1b[32m2. Successfully copied ${sourceFile} to ${destinationFile}\x1b[0m`);
 
         // 3. Modify the middleware configuration file to include the new middleware
         // Step 2: Check for middleware.js or middleware.ts in the parent's config folder
