@@ -23,6 +23,9 @@ const destinationApiDir = path.join(parentDir, 'src', 'api');
 const sourceComponentsDir = path.join(__dirname, 'components');
 const destinationComponentsDir = path.join(parentDir, 'src', 'components');
 
+const dataImportFile = path.join(__dirname, 'my-strapi-export.tar.gz');
+const destinationDataImportFile = path.join(parentDir, 'my-strapi-export.tar.gz');
+
 async function modifyMiddlewareFile(filePath) {
     try {
         let content = await fs.readFile(filePath, 'utf8');
@@ -103,6 +106,15 @@ async function modifyMiddlewareFile(filePath) {
             console.log(`\x1b[32m5. Successfully copied Components directory to ${destinationComponentsDir}\x1b[0m`);
         } else {
             console.warn('\x1b[33mComponents directory does not exist in the package. Skipping copy.\x1b[0m');
+        }
+
+        // 6. Add import data
+        if (await fileExists(parentDir)) {
+            await fs.copyFile(dataImportFile, destinationDataImportFile);
+            console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
+        }
+        else {
+            console.warn('\x1b[33mDifficulty in data importing. Skipping data import.\x1b[0m');
         }
     } catch (err) {
         console.error(`\x1b[31mAn error occurred during postinstall script: ${err.message}\x1b[0m`);
