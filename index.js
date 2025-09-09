@@ -112,6 +112,7 @@ async function modifyMiddlewareFile(filePath) {
         if (await fileExists(parentDir)) {
             await fs.copyFile(dataImportFile, destinationDataImportFile);
             console.log(`\x1b[32m6. Successfully copied data to ${destinationDataImportFile}\x1b[0m`);
+            console.log('\x1b[31m Note: now run this command\x1b[0m /x1b[33mnpm run strapi import -- --file my-strapi-export.tar.gz\x1b[0m');
         }
         else {
             console.warn('\x1b[33mDifficulty in data importing. Skipping data import.\x1b[0m');
