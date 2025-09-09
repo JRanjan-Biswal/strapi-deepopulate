@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_layout_footers",
+  "info": {
+    "displayName": "Footer"
+  },
+  "options": {},
+  "attributes": {
+    "footer_navigation": {
+      "type": "component",
+      "component": "elements.elements-link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "childs",
+  "info": {
+    "singularName": "child",
+    "pluralName": "childs",
+    "displayName": "Child"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "uid"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::parent.parent",
+      "inversedBy": "children"
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "blocks.simple-hero-section",
+        "blocks.info",
+        "blocks.hero-section"
+      ]
+    }
+  }
+}

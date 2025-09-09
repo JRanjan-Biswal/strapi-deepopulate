@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_blocks_simple_hero_sections",
+  "info": {
+    "displayName": "Simple Hero Section"
+  },
+  "options": {},
+  "attributes": {
+    "desktop_image_video": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "component": "elements.elements-link",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

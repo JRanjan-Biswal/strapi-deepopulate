@@ -17,6 +17,12 @@ const configDir = path.join(parentDir, 'config');
 const middlewareFileJS = path.join(configDir, 'middlewares.js');
 const middlewareFileTS = path.join(configDir, 'middlewares.ts');
 
+const sourceApiDir = path.join(__dirname, 'api');
+const destinationApiDir = path.join(parentDir, 'src', 'api');
+
+const sourceComponentsDir = path.join(__dirname, 'components');
+const destinationComponentsDir = path.join(parentDir, 'src', 'components');
+
 async function modifyMiddlewareFile(filePath) {
     try {
         let content = await fs.readFile(filePath, 'utf8');
@@ -79,6 +85,24 @@ async function modifyMiddlewareFile(filePath) {
             await modifyMiddlewareFile(middlewareFileTS);
         } else {
             console.warn('\x1b[31mNeither middleware.js nor middleware.ts found in the parent config folder.\x1b[0m');
+        }
+
+        // 4. Copy the api and components directories if they exist
+        if (await fileExists(sourceApiDir)) {
+            await fs.mkdir(destinationApiDir, { recursive: true });
+            await fs.cp(sourceApiDir, destinationApiDir, { recursive: true });
+            console.log(`\x1b[32m4. Successfully copied API directory to ${destinationApiDir}\x1b[0m`);
+        } else {
+            console.warn('\x1b[33mAPI directory does not exist in the package. Skipping copy.\x1b[0m');
+        }
+
+        // 5. Copy components directory if it exists
+        if (await fileExists(sourceComponentsDir)) {
+            await fs.mkdir(destinationComponentsDir, { recursive: true });
+            await fs.cp(sourceComponentsDir, destinationComponentsDir, { recursive: true });
+            console.log(`\x1b[32m5. Successfully copied Components directory to ${destinationComponentsDir}\x1b[0m`);
+        } else {
+            console.warn('\x1b[33mComponents directory does not exist in the package. Skipping copy.\x1b[0m');
         }
     } catch (err) {
         console.error(`\x1b[31mAn error occurred during postinstall script: ${err.message}\x1b[0m`);
