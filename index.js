@@ -9,7 +9,7 @@ if (!parentDir) {
     process.exit(1);
 }
 
-const sourceFile = path.join(__dirname, 'deepPopulate.js');
+const sourceFile = path.join(__dirname, 'deepPopulate.ts');
 const destinationDir = path.join(parentDir, 'src', 'middlewares');
 const destinationFile = path.join(destinationDir, 'deepPopulate.ts');
 
