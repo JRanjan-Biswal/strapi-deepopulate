@@ -2,7 +2,11 @@
   "name": "strapi-deepopulate",
   "version": "1.0.0",
   "description": "this deep populates all the field to the api",
+  "bin": {
+    "strapi-deepopulate": "./index.js"
+  },
   "scripts": {
-    "postinstall": "node index.js"
+    "postinstall": "node index.js",
+    "push": "node index.js"
   }
 }
