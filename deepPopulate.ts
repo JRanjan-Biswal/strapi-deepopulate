@@ -1,19 +1,28 @@
 /**
  * `deepPopulate` middleware
  */
+import type { Core } from '@strapi/strapi';
+import { UID } from '@strapi/types';
 import { contentTypes } from '@strapi/utils';
 import pluralize from 'pluralize';
 
+interface Options {
+  /**
+   * Fields to select when populating relations
+   */
+  relationalFields?: string[];
+}
+
 const { CREATED_BY_ATTRIBUTE, UPDATED_BY_ATTRIBUTE } = contentTypes.constants;
 
-const extractPathSegment = (url) =>
+const extractPathSegment = (url: string) =>
   url.match(/\/([^/?]+)(?:\?|$)/)?.[1] || '';
 
-const getDeepPopulate = (uid, opts = {}) => {
+const getDeepPopulate = (uid: UID.Schema, opts: Options = {}) => {
   const model = strapi.getModel(uid);
   const attributes = Object.entries(model.attributes);
 
-  return attributes.reduce((acc, [attributeName, attribute]) => {
+  return attributes.reduce((acc: any, [attributeName, attribute]) => {
     switch (attribute.type) {
       case 'relation': {
         const isMorphRelation = attribute.relation
@@ -55,7 +64,7 @@ const getDeepPopulate = (uid, opts = {}) => {
       case 'dynamiczone': {
         // Use fragments to populate the dynamic zone components
         const populatedComponents = (attribute.components || []).reduce(
-          (acc, componentUID) => {
+          (acc: any, componentUID: UID.Component) => {
             acc[componentUID] = {
               populate: getDeepPopulate(componentUID, opts),
             };
@@ -76,7 +85,7 @@ const getDeepPopulate = (uid, opts = {}) => {
   }, {});
 };
 
-export default (config, { strapi }) => {
+export default (config, { strapi }: { strapi: Core.Strapi }) => {
   return async (ctx, next) => {
     if (
       ctx.request.url.startsWith('/api/') &&
